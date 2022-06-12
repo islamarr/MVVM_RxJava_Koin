@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text sizes -->
+    <dimen name="_22sp">22sp</dimen>
+    <dimen name="_18sp">18sp</dimen>
+    <dimen name="_16sp">16sp</dimen>
+
+    <!-- Margins -->
+    <dimen name="margin_medium">20dp</dimen>
+    <dimen name="margin_small">16dp</dimen>
+    <dimen name="margin_tiny">8dp</dimen>
+
+    <!-- Others -->
+    <dimen name="_60dp">60dp</dimen>
+    <dimen name="_120dp">120dp</dimen>
+    <dimen name="_44dp">44dp</dimen>
+</resources>

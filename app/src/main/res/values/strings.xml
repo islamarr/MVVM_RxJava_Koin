@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- General -->
+    <string name="app_name">music</string>
+    <string name="error_message">Something went wrong. please try again</string>
+
+    <!-- Main Screen -->
+    <string name="main_screen_title">Main Screen</string>
+    <string name="no_favorite">Here will see your favorite albums</string>
+
+    <!-- Search Screen -->
+    <string name="search_hint">Search for artist</string>
+    <string name="search_screen_title">Search</string>
+    <string name="no_Artists">No artists found, try another name</string>
+
+    <!-- Top Albums -->
+    <string name="no_albums">No albums found</string>
+    <string name="top_albums_screen_title">Top Albums of %1$s</string>
+
+    <!-- Album Details -->
+    <string name="album_details_screen_title">%1$s Album Details</string>
+    <string name="tracks_title">Tracks</string>
+    <string name="no_tracks">No tracks available</string>
+
+</resources>
