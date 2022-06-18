@@ -2,7 +2,6 @@ package com.islam.music.features.main_screen.domain.usecases
 
 import com.islam.music.common.data.DataResponse
 import com.islam.music.features.album_details.domain.repositories.AlbumDetailsRepository
-import com.islam.music.features.main_screen.presentation.viewmodel.MainScreenStates
 import com.islam.music.features.search.domain.entites.Artist
 import com.islam.music.features.top_albums.domain.entites.Album
 import kotlinx.coroutines.runBlocking

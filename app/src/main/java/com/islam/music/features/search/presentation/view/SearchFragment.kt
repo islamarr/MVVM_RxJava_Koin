@@ -26,6 +26,11 @@ class SearchFragment : NewBaseFragment<FragmentMainScreenBinding>(),
     SearchView.OnQueryTextListener,
     OnSearchItemClickListener {
 
+    val viewModel: SearchViewModel by viewModels()
+    private lateinit var artistsAdapter: ArtistsAdapter
+    private var queryTyped = ""
+    private var isReachBottom = false
+
     override fun screenTitle() = getString(R.string.search_screen_title)
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainScreenBinding
@@ -64,12 +69,6 @@ class SearchFragment : NewBaseFragment<FragmentMainScreenBinding>(),
             }
         }
     }
-
-    val viewModel: SearchViewModel by viewModels()
-    private lateinit var artistsAdapter: ArtistsAdapter
-    private var queryTyped = ""
-    private var isReachBottom = false
-
 
     private fun initRecyclerView() {
         binding.container.list.apply {

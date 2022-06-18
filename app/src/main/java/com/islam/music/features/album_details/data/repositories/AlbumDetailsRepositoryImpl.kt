@@ -8,6 +8,7 @@ import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.domain.repositories.AlbumDetailsRepository
 import com.islam.music.features.top_albums.domain.entites.Album
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class AlbumDetailsRepositoryImpl @Inject constructor(
@@ -30,10 +31,8 @@ class AlbumDetailsRepositoryImpl @Inject constructor(
         localDataSource.removeFromFavoriteList(album)
     }
 
-    override suspend fun getFavoriteList(): DataResponse<List<Album>> {
-        return object : SafeServiceCall<List<Album>>(
-            cacheCall = { localDataSource.getFavoriteList() }
-        ) {}.safeCall()
+    override fun getFavoriteList(): Single<List<Album>> {
+        return localDataSource.getFavoriteList()
     }
 
     override suspend fun getOneFavoriteAlbum(albumParams: AlbumParams): DataResponse<AlbumEntity> {
