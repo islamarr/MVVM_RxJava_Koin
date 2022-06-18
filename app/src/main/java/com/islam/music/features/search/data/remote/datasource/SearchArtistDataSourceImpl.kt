@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class SearchArtistDataSourceImpl @Inject constructor(private val searchAPIService: SearchAPIService) :
     SearchArtistDataSource {
-    override fun searchArtist(query: String, page: Int) :Single<ArtistResponse> {
+    override fun searchArtist(query: String, page: Int): Single<ArtistResponse> {
         return searchAPIService.searchByArtist(query, page)
     }
 }

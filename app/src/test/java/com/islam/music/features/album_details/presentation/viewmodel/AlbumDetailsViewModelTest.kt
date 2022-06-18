@@ -7,10 +7,6 @@ import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.domain.usecases.AlbumDetailsUseCase
 import com.islam.music.features.album_details.domain.usecases.GetFavoriteUseCase
 import com.islam.music.features.album_details.domain.usecases.SetFavoriteUseCase
-import com.islam.music.features.search.domain.usecases.SearchArtistUseCase
-import com.islam.music.features.search.presentation.viewmodel.SearchActions
-import com.islam.music.features.search.presentation.viewmodel.SearchStates
-import com.islam.music.features.search.presentation.viewmodel.SearchViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop

@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.islam.music.features.album_details.domain.entites.Track
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import java.util.*
 
 class Converters {
@@ -14,20 +15,18 @@ class Converters {
         @JvmStatic
         fun fromStringToList(data: String): List<Track> {
             val moshi = Moshi.Builder().build()
-            val jsonAdapter: JsonAdapter<List<Track>> = moshi.adapter<List<Track>>(
-                Track::class.java
-            )
-            return jsonAdapter.fromJson(data) ?: listOf()
+            val membersType = Types.newParameterizedType(List::class.java, Track::class.java)
+            val membersAdapter = moshi.adapter<List<Track>>(membersType)
+            return membersAdapter.fromJson(data).orEmpty()
         }
 
         @TypeConverter
         @JvmStatic
         fun fromListToString(trackList: List<Track>): String {
             val moshi = Moshi.Builder().build()
-            val jsonAdapter: JsonAdapter<List<Track>> = moshi.adapter<List<Track>>(
-                Track::class.java
-            )
-            return jsonAdapter.toJson(trackList)
+            val membersType = Types.newParameterizedType(List::class.java, Track::class.java)
+            val membersAdapter = moshi.adapter<List<Track>>(membersType)
+            return membersAdapter.toJson(trackList)
         }
 
 
