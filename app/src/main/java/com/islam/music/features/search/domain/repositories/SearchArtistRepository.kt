@@ -1,8 +1,8 @@
 package com.islam.music.features.search.domain.repositories
 
-import com.islam.music.common.data.DataResponse
 import com.islam.music.features.search.domain.entites.ArtistResponse
+import io.reactivex.rxjava3.core.Single
 
 interface SearchArtistRepository {
-    suspend fun searchArtist(query: String, page: Int) : DataResponse<ArtistResponse>
+    fun searchArtist(query: String, page: Int): Single<ArtistResponse>
 }

@@ -1,7 +1,8 @@
 package com.islam.music.features.search.data.remote.datasource
 
 import com.islam.music.features.search.domain.entites.ArtistResponse
+import io.reactivex.rxjava3.core.Single
 
 interface SearchArtistDataSource {
-    suspend fun searchArtist(query: String, page: Int): ArtistResponse
+    fun searchArtist(query: String, page: Int): Single<ArtistResponse>
 }

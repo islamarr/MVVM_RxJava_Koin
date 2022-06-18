@@ -2,7 +2,6 @@ package com.islam.music.features.search.presentation.viewmodel
 
 import com.islam.music.common.ViewState
 import com.islam.music.features.search.domain.entites.Artist
-import com.islam.music.features.search.domain.entites.ArtistResults
 
 
 sealed class SearchStates : ViewState {

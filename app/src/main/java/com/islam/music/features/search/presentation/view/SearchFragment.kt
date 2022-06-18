@@ -2,48 +2,98 @@ package com.islam.music.features.search.presentation.view
 
 import android.app.SearchManager
 import android.content.Context.SEARCH_SERVICE
+import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.islam.music.R
 import com.islam.music.common.EspressoIdlingResource
+import com.islam.music.common.data.DataResponse
 import com.islam.music.common.gone
 import com.islam.music.common.setKeyboardVisibility
-import com.islam.music.common.view.BaseFragment
 import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
-import com.islam.music.features.search.presentation.viewmodel.SearchActions
 import com.islam.music.features.search.presentation.viewmodel.SearchStates
 import com.islam.music.features.search.presentation.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment :
-    BaseFragment<FragmentMainScreenBinding, SearchStates, SearchActions>(),
+class SearchFragment : Fragment(),
     SearchView.OnQueryTextListener,
     OnSearchItemClickListener {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainScreenBinding
-        get() = FragmentMainScreenBinding::inflate
+    private var _binding: FragmentMainScreenBinding? = null
+    private val binding: FragmentMainScreenBinding
+        get() {
+            return _binding ?: throw IllegalStateException(
+                "data binding should not be requested before onViewCreated is called"
+            )
+        }
 
-    override fun screenTitle() = getString(R.string.search_screen_title)
 
-    override val viewModel: SearchViewModel by viewModels()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
+        return _binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        setToolbarTitle()
+        initRecyclerView()
+        setScrollListener()
+        startObserver()
+    }
+
+    private fun setToolbarTitle() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = screenTitle()
+    }
+
+    fun screenTitle() = getString(R.string.search_screen_title)
+
+    private fun startObserver() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is DataResponse.Failure -> {
+                    showEmptyList(true)
+                    binding.container.resultStatusText.text = getString(R.string.error_message)
+                    EspressoIdlingResource.decrement()
+                }
+               // is DataResponse.Loading -> binding.container.loading.visible()
+                is DataResponse.Success -> {
+                    showEmptyList(false)
+                    it.data?.let { state ->
+                        isReachBottom = state.isReachBottom
+                    }
+                    it.data?.result?.let { list ->
+                        if (list.isEmpty()) {
+                            showEmptyList(true)
+                            binding.container.resultStatusText.text = getString(R.string.no_Artists)
+                        } else {
+                            artistsAdapter.submitList(list.toList())
+                        }
+                    }
+                    EspressoIdlingResource.decrement()
+                }
+            }
+        }
+    }
+
+    val viewModel: SearchViewModel by viewModels()
     private lateinit var artistsAdapter: ArtistsAdapter
     private var queryTyped = ""
     private var isReachBottom = false
 
-    override fun setupOnViewCreated() {
-        initRecyclerView()
-        setScrollListener()
-    }
 
     private fun initRecyclerView() {
         binding.container.list.apply {
@@ -54,11 +104,9 @@ class SearchFragment :
 
     private fun loadArtistList(isLoadMore: Boolean = false) {
         EspressoIdlingResource.increment()
-        viewModel.dispatch(
-            SearchActions.SearchArtistByName(
-                query = queryTyped,
-                isLoadMore = isLoadMore
-            )
+        viewModel.fetchArtists(
+            query = queryTyped,
+            isLoadMore = isLoadMore
         )
     }
 
@@ -68,7 +116,7 @@ class SearchFragment :
         binding.container.list.isVisible = !show
     }
 
-    override fun handleViewState(it: SearchStates) {
+    fun handleViewState(it: SearchStates) {
         when (it) {
             is SearchStates.InitialState -> Log.d("TAG", "InitialState")
             is SearchStates.Loading -> binding.container.loading.visible()
@@ -145,4 +193,9 @@ class SearchFragment :
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        _binding = null
+    }
 }
