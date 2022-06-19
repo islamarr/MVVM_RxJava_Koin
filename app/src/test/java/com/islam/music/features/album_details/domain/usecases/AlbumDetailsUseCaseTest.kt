@@ -4,7 +4,6 @@ import com.islam.music.common.data.DataResponse
 import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.domain.repositories.AlbumDetailsRepository
-import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsStates
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before

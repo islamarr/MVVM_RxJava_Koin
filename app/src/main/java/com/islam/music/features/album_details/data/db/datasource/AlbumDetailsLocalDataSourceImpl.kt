@@ -15,11 +15,11 @@ class AlbumDetailsLocalDataSourceImpl @Inject constructor(
     private val albumEntityToAlbumMapper: AlbumEntityToAlbumMapper
 ) :
     AlbumDetailsLocalDataSource {
-    override suspend fun addToFavoriteList(album: AlbumEntity) {
+    override fun addToFavoriteList(album: AlbumEntity) {
         albumDao.addToFavoriteList(album)
     }
 
-    override suspend fun removeFromFavoriteList(album: AlbumEntity) {
+    override fun removeFromFavoriteList(album: AlbumEntity) {
         albumDao.removeFromFavoriteList(album.albumName, album.artistName)
     }
 
@@ -31,7 +31,7 @@ class AlbumDetailsLocalDataSourceImpl @Inject constructor(
 
     override fun getOneFavoriteAlbum(
         albumParams: AlbumParams
-    ): AlbumEntity {
+    ): Single<AlbumEntity> {
         return albumDao.getOneFavoriteAlbum(albumParams.artistName, albumParams.albumName)
     }
 }

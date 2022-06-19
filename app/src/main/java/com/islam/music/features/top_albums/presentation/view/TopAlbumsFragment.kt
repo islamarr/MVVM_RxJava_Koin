@@ -8,25 +8,24 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.islam.music.R
 import com.islam.music.common.OnItemClickListener
+import com.islam.music.common.data.DataResponse
 import com.islam.music.common.gone
 import com.islam.music.common.view.BaseFragment
 import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.main_screen.presentation.view.AlbumsAdapter
-import com.islam.music.features.top_albums.presentation.viewmodel.TopAlbumsActions
-import com.islam.music.features.top_albums.presentation.viewmodel.TopAlbumsStates
 import com.islam.music.features.top_albums.presentation.viewmodel.TopAlbumsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TopAlbumsFragment :
-    BaseFragment<FragmentMainScreenBinding, TopAlbumsStates, TopAlbumsActions>(),
+    BaseFragment<FragmentMainScreenBinding>(),
     OnItemClickListener {
 
     private val args: TopAlbumsFragmentArgs by navArgs()
     private lateinit var albumsAdapter: AlbumsAdapter
 
-    override val viewModel: TopAlbumsViewModel by viewModels()
+    val viewModel: TopAlbumsViewModel by viewModels()
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainScreenBinding
         get() = FragmentMainScreenBinding::inflate
 
@@ -34,6 +33,8 @@ class TopAlbumsFragment :
 
     override fun setupOnViewCreated() {
         initRecyclerView()
+        loadTopAlbums(args.artistName)
+        handleViewState()
     }
 
     private fun initRecyclerView() {
@@ -44,7 +45,7 @@ class TopAlbumsFragment :
     }
 
     private fun loadTopAlbums(artistName: String) {
-        viewModel.dispatch(TopAlbumsActions.LoadAllAlbums(artistName = artistName))
+        viewModel.fetch(artistName = artistName)
     }
 
     private fun showEmptyList(show: Boolean) {
@@ -53,22 +54,26 @@ class TopAlbumsFragment :
         binding.container.list.isVisible = !show
     }
 
-    override fun handleViewState(it: TopAlbumsStates) {
-        when (it) {
-            is TopAlbumsStates.InitialState -> loadTopAlbums(args.artistName)
-            is TopAlbumsStates.Loading -> binding.container.loading.visible()
-            is TopAlbumsStates.TopAlbumsListLoaded -> {
-                showEmptyList(false)
-                albumsAdapter.submitList(it.topAlbumsList)
-            }
-            is TopAlbumsStates.EmptyTopAlbumsList -> {
-                showEmptyList(true)
-                // binding.retryBtn.gone()
-                binding.container.resultStatusText.text = getString(R.string.no_albums)
-            }
-            is TopAlbumsStates.ShowErrorMessage -> {
-                showEmptyList(true)
-                binding.container.resultStatusText.text = getString(R.string.error_message)
+    private fun handleViewState() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is DataResponse.Loading -> binding.container.loading.visible()
+                is DataResponse.Failure -> {
+                    showEmptyList(true)
+                    binding.container.resultStatusText.text = getString(R.string.error_message)
+                }
+                is DataResponse.Success -> {
+                    it.data?.topAlbumsList?.let { list ->
+                        if (list.isEmpty()) {
+                            showEmptyList(true)
+                            // binding.retryBtn.gone()
+                            binding.container.resultStatusText.text = getString(R.string.no_albums)
+                        } else {
+                            showEmptyList(false)
+                            albumsAdapter.submitList(list)
+                        }
+                    }
+                }
             }
         }
     }

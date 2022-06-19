@@ -16,13 +16,14 @@ import com.islam.music.common.EspressoIdlingResource
 import com.islam.music.common.data.DataResponse
 import com.islam.music.common.gone
 import com.islam.music.common.setKeyboardVisibility
-import com.islam.music.common.view.NewBaseFragment
+import com.islam.music.common.view.BaseFragment
+import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.search.presentation.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : NewBaseFragment<FragmentMainScreenBinding>(),
+class SearchFragment : BaseFragment<FragmentMainScreenBinding>(),
     SearchView.OnQueryTextListener,
     OnSearchItemClickListener {
 
@@ -50,7 +51,7 @@ class SearchFragment : NewBaseFragment<FragmentMainScreenBinding>(),
                     binding.container.resultStatusText.text = getString(R.string.error_message)
                     EspressoIdlingResource.decrement()
                 }
-                // is DataResponse.Loading -> binding.container.loading.visible()
+                is DataResponse.Loading -> binding.container.loading.visible()
                 is DataResponse.Success -> {
                     showEmptyList(false)
                     it.data?.let { state ->

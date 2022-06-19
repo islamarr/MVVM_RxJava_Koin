@@ -10,5 +10,5 @@ sealed class DataResponse<out T> {
         val reason: String? = null,
     ) : DataResponse<Nothing>()
 
-  //  object Loading : DataResponse<Nothing>() //TODO uncomment this
+    object Loading : DataResponse<Nothing>()
 }

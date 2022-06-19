@@ -6,8 +6,8 @@ import com.islam.music.features.top_albums.domain.entites.Album
 import io.reactivex.rxjava3.core.Single
 
 interface AlbumDetailsLocalDataSource {
-    suspend fun addToFavoriteList(album: AlbumEntity)
-    suspend fun removeFromFavoriteList(album: AlbumEntity)
+    fun addToFavoriteList(album: AlbumEntity)
+    fun removeFromFavoriteList(album: AlbumEntity)
     fun getFavoriteList(): Single<List<Album>>
-    fun getOneFavoriteAlbum(albumParams: AlbumParams): AlbumEntity
+    fun getOneFavoriteAlbum(albumParams: AlbumParams): Single<AlbumEntity>
 }

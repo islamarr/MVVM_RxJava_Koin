@@ -6,19 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
-import com.islam.music.common.Action
-import com.islam.music.common.ViewState
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
-abstract class BaseFragment<viewBinding : ViewBinding, STATES : ViewState, ACTIONS : Action> :
+abstract class BaseFragment<viewBinding : ViewBinding> :
     Fragment() {
-
-    abstract val viewModel: BaseViewModel<STATES, ACTIONS>
 
     private var _binding: viewBinding? = null
     protected val binding: viewBinding
@@ -46,7 +37,7 @@ abstract class BaseFragment<viewBinding : ViewBinding, STATES : ViewState, ACTIO
         setHasOptionsMenu(true)
         setToolbarTitle()
         setupOnViewCreated()
-        startObserver()
+
     }
 
     private fun setToolbarTitle() {
@@ -54,18 +45,6 @@ abstract class BaseFragment<viewBinding : ViewBinding, STATES : ViewState, ACTIO
     }
 
     abstract fun setupOnViewCreated()
-
-    private fun startObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
-                    handleViewState(it)
-                }
-            }
-        }
-    }
-
-    abstract fun handleViewState(it: STATES)
 
     override fun onDestroy() {
         _binding = null

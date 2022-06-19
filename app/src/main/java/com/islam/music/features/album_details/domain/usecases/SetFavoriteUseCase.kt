@@ -8,7 +8,7 @@ import javax.inject.Inject
 @ViewModelScoped
 class SetFavoriteUseCase @Inject constructor(private val repository: AlbumDetailsRepository) {
 
-    suspend fun execute(isAdd: Boolean, albumEntity: AlbumEntity) {
+    fun execute(isAdd: Boolean, albumEntity: AlbumEntity) {
         if (isAdd) repository.addToFavoriteList(albumEntity)
         else repository.removeFromFavoriteList(albumEntity)
     }

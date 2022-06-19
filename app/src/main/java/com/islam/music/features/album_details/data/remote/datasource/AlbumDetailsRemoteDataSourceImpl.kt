@@ -4,6 +4,7 @@ import com.islam.music.features.album_details.data.db.AlbumDetailsToAlbumMapper
 import com.islam.music.features.album_details.data.remote.api.AlbumDetailsAPIService
 import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class AlbumDetailsRemoteDataSourceImpl @Inject constructor(
@@ -12,8 +13,9 @@ class AlbumDetailsRemoteDataSourceImpl @Inject constructor(
 ) :
     AlbumDetailsRemoteDataSource {
 
-    override suspend fun getAlbumDetails(albumParams: AlbumParams): AlbumEntity {
+    override fun getAlbumDetails(albumParams: AlbumParams): Single<AlbumEntity> {
         val response = apiService.getAlbumDetails(albumParams.artistName, albumParams.albumName)
-        return albumDetailsToAlbumMapper.invoke(response.album)
+        return response.map { albumDetailsToAlbumMapper.invoke(it.album) }
     }
+
 }

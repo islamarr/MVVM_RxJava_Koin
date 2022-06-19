@@ -1,27 +1,15 @@
 package com.islam.music.common.view
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.islam.music.common.Action
-import com.islam.music.common.ViewState
-import kotlinx.coroutines.flow.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-abstract class BaseViewModel<STATES : ViewState, ACTIONS : Action>(val initialState: STATES) :
-    ViewModel() {
-    private val _state = MutableStateFlow(initialState)
-    val state: StateFlow<STATES>
-        get() = _state.asStateFlow()
+abstract class BaseViewModel : ViewModel() {
 
-    fun dispatch(actions: ACTIONS) {
-        handle(actions).onEach { state ->
-            onViewState(state)
-        }.launchIn(viewModelScope)
+    val compositeDisposable = CompositeDisposable()
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
-
-    private suspend fun onViewState(state: STATES) {
-        _state.emit(state)
-    }
-
-    abstract fun handle(actions: ACTIONS): Flow<STATES>
 
 }

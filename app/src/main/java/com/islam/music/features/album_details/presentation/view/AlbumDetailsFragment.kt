@@ -10,20 +10,19 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.islam.music.R
 import com.islam.music.common.IMAGE_SIZE_MULTIPLIER
+import com.islam.music.common.data.DataResponse
 import com.islam.music.common.gone
 import com.islam.music.common.view.BaseFragment
 import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentAlbumDetailsBinding
 import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
-import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsActions
-import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsStates
 import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AlbumDetailsFragment :
-    BaseFragment<FragmentAlbumDetailsBinding, AlbumDetailsStates, AlbumDetailsActions>() {
+    BaseFragment<FragmentAlbumDetailsBinding>() {
 
     private val args: AlbumDetailsFragmentArgs by navArgs()
     private var albumEntity = AlbumEntity()
@@ -33,16 +32,19 @@ class AlbumDetailsFragment :
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAlbumDetailsBinding
         get() = FragmentAlbumDetailsBinding::inflate
+
     override fun screenTitle() = getString(R.string.album_details_screen_title, args.albumName)
-    override val viewModel: AlbumDetailsViewModel by viewModels()
+    val viewModel: AlbumDetailsViewModel by viewModels()
 
 
     override fun setupOnViewCreated() {
         initRecyclerView()
         setArgumentsData()
+        loadAlbumDetails(albumParams)
+        handleViewState()
         binding.addToFavorite.setOnClickListener {
             isFavorite = !isFavorite
-            viewModel.dispatch(AlbumDetailsActions.SetFavoriteAction(isFavorite, albumEntity))
+            viewModel.setFavorite(isFavorite, albumEntity)
         }
     }
 
@@ -70,7 +72,7 @@ class AlbumDetailsFragment :
     }
 
     private fun loadAlbumDetails(albumParams: AlbumParams) {
-        viewModel.dispatch(AlbumDetailsActions.AlbumDetailsAction(albumParams))
+        viewModel.fetch(albumParams)
     }
 
     private fun showEmptyList(show: Boolean) {
@@ -79,25 +81,29 @@ class AlbumDetailsFragment :
         binding.albumTrackList.isVisible = !show
     }
 
-    override fun handleViewState(it: AlbumDetailsStates) {
-        when (it) {
-            is AlbumDetailsStates.InitialState -> loadAlbumDetails(albumParams)
-            is AlbumDetailsStates.Loading -> binding.loading.visible()
-            is AlbumDetailsStates.AlbumDetailsData -> {
-                val resultTrackList = it.albumDetails.trackList
-                binding.addToFavorite.visible()
-                showEmptyList(resultTrackList.isEmpty())
-                trackAdapter.submitList(resultTrackList)
-                albumEntity = it.albumDetails
+    private fun handleViewState() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is DataResponse.Loading -> binding.loading.visible()
+                is DataResponse.Failure -> {
+                    showEmptyList(true)
+                    binding.resultStatusText.text = getString(R.string.no_tracks)
+                }
+                is DataResponse.Success -> {
+                    it.data?.albumDetails?.let { album ->
+                        val resultTrackList = album.trackList
+                        binding.addToFavorite.visible()
+                        showEmptyList(resultTrackList.isEmpty())
+                        trackAdapter.submitList(resultTrackList)
+                        albumEntity = album
+                    }
+                }
             }
-            is AlbumDetailsStates.ShowErrorMessage -> {
-                showEmptyList(true)
-                binding.resultStatusText.text = getString(R.string.no_tracks)
-            }
-            is AlbumDetailsStates.SavedState -> {
-                isFavorite = it.isSaved
-                binding.addToFavorite.isChecked = isFavorite
-            }
+        }
+
+        viewModel.state2.observe(viewLifecycleOwner) {
+            isFavorite = it.isSaved
+            binding.addToFavorite.isChecked = isFavorite
         }
     }
 
