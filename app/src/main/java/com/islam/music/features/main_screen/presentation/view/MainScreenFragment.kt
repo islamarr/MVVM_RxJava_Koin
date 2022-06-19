@@ -14,14 +14,12 @@ import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.main_screen.presentation.viewmodel.MainScreenViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinComponent
 import org.koin.core.parameter.parametersOf
-import org.koin.java.KoinJavaComponent.inject
 
 
 class MainScreenFragment :
     BaseFragment<FragmentMainScreenBinding>(),
-    OnItemClickListener, KoinComponent {
+    OnItemClickListener {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainScreenBinding
         get() = FragmentMainScreenBinding::inflate
@@ -107,5 +105,6 @@ class MainScreenFragment :
                 )
         }
     }
+
 
 }
