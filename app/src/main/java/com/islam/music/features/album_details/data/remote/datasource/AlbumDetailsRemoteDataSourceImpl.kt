@@ -5,9 +5,9 @@ import com.islam.music.features.album_details.data.remote.api.AlbumDetailsAPISer
 import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import io.reactivex.rxjava3.core.Single
-import javax.inject.Inject
 
-class AlbumDetailsRemoteDataSourceImpl @Inject constructor(
+
+class AlbumDetailsRemoteDataSourceImpl (
     private val apiService: AlbumDetailsAPIService,
     private val albumDetailsToAlbumMapper: AlbumDetailsToAlbumMapper
 ) :

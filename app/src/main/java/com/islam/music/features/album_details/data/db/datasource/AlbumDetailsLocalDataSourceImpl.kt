@@ -7,10 +7,9 @@ import com.islam.music.features.main_screen.data.AlbumEntityToAlbumMapper
 import com.islam.music.features.top_albums.domain.entites.Album
 import io.reactivex.rxjava3.core.Observable.fromIterable
 import io.reactivex.rxjava3.core.Single
-import javax.inject.Inject
 
 
-class AlbumDetailsLocalDataSourceImpl @Inject constructor(
+class AlbumDetailsLocalDataSourceImpl(
     private val albumDao: AlbumDao,
     private val albumEntityToAlbumMapper: AlbumEntityToAlbumMapper
 ) :

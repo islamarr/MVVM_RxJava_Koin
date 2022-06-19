@@ -11,15 +11,12 @@ import com.islam.music.features.album_details.domain.entites.SavedState
 import com.islam.music.features.album_details.domain.usecases.AlbumDetailsUseCase
 import com.islam.music.features.album_details.domain.usecases.GetFavoriteUseCase
 import com.islam.music.features.album_details.domain.usecases.SetFavoriteUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
-@HiltViewModel
-class AlbumDetailsViewModel @Inject constructor(
+class AlbumDetailsViewModel(
     private val albumDetailsUseCase: AlbumDetailsUseCase,
     private val getFavoriteUseCase: GetFavoriteUseCase,
     private val setFavoriteUseCase: SetFavoriteUseCase

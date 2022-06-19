@@ -6,13 +6,10 @@ import com.islam.music.common.data.DataResponse
 import com.islam.music.common.view.BaseViewModel
 import com.islam.music.features.search.domain.entites.ArtistListLoaded
 import com.islam.music.features.search.domain.usecases.SearchArtistUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(private val useCase: SearchArtistUseCase) :
+class SearchViewModel(private val useCase: SearchArtistUseCase) :
     BaseViewModel() {
 
     private val response = MutableLiveData<DataResponse<ArtistListLoaded>>()

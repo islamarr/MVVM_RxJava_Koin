@@ -3,7 +3,6 @@ package com.islam.music.features.album_details.presentation.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -18,9 +17,8 @@ import com.islam.music.databinding.FragmentAlbumDetailsBinding
 import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class AlbumDetailsFragment :
     BaseFragment<FragmentAlbumDetailsBinding>() {
 
@@ -34,7 +32,7 @@ class AlbumDetailsFragment :
         get() = FragmentAlbumDetailsBinding::inflate
 
     override fun screenTitle() = getString(R.string.album_details_screen_title, args.albumName)
-    val viewModel: AlbumDetailsViewModel by viewModels()
+    val viewModel: AlbumDetailsViewModel by viewModel()
 
 
     override fun setupOnViewCreated() {

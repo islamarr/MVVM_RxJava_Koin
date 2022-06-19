@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 
 class TopAlbumsRemoteRemoteDataSourceImplTest {
-    private lateinit var dataSource: TopAlbumsRemoteRemoteDataSourceImpl
+    private lateinit var dataSource: TopAlbumsRemoteDataSourceImpl
 
     @Mock
     private lateinit var apiService: TopAlbumsAPIService
@@ -19,7 +19,7 @@ class TopAlbumsRemoteRemoteDataSourceImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        dataSource = TopAlbumsRemoteRemoteDataSourceImpl(apiService)
+        dataSource = TopAlbumsRemoteDataSourceImpl(apiService)
     }
 
     @Test

@@ -8,7 +8,6 @@ import android.view.MenuInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.islam.music.R
@@ -20,14 +19,13 @@ import com.islam.music.common.view.BaseFragment
 import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.search.presentation.viewmodel.SearchViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentMainScreenBinding>(),
     SearchView.OnQueryTextListener,
     OnSearchItemClickListener {
 
-    val viewModel: SearchViewModel by viewModels()
+    val viewModel: SearchViewModel by viewModel()
     private lateinit var artistsAdapter: ArtistsAdapter
     private var queryTyped = ""
     private var isReachBottom = false

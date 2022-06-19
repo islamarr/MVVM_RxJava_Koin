@@ -2,7 +2,6 @@ package com.islam.music.features.main_screen.presentation.view
 
 import android.view.*
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.islam.music.R
 import com.islam.music.common.EspressoIdlingResource
@@ -13,9 +12,9 @@ import com.islam.music.common.view.BaseFragment
 import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.main_screen.presentation.viewmodel.MainScreenViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
+
 class MainScreenFragment :
     BaseFragment<FragmentMainScreenBinding>(),
     OnItemClickListener {
@@ -25,12 +24,17 @@ class MainScreenFragment :
 
     override fun screenTitle() = getString(R.string.main_screen_title)
 
-    val viewModel: MainScreenViewModel by viewModels()
+    val viewModel: MainScreenViewModel by viewModel()
     private lateinit var albumsAdapter: AlbumsAdapter
 
     override fun setupOnViewCreated() {
         initRecyclerView()
         startObserver()
+        loadLocaleList()
+    }
+
+    private fun loadLocaleList() {
+        viewModel.fetch()
     }
 
     private fun startObserver() {

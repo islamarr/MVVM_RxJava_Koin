@@ -15,7 +15,7 @@ interface AlbumDao {
     fun removeFromFavoriteList(albumName: String?, artistName: String?)
 
     @Query("SELECT * FROM album")
-    fun getFavoriteList(): Single<List<AlbumEntity>> //TODO why use single? and why not reflected automatically ?
+    fun getFavoriteList(): Single<List<AlbumEntity>> //TODO why use single?
 
     @Query("SELECT * FROM album WHERE artistName = :artistName and albumName = :albumName")
     fun getOneFavoriteAlbum(artistName: String, albumName: String): Single<AlbumEntity>

@@ -3,7 +3,6 @@ package com.islam.music.features.top_albums.presentation.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.islam.music.R
@@ -15,9 +14,9 @@ import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.main_screen.presentation.view.AlbumsAdapter
 import com.islam.music.features.top_albums.presentation.viewmodel.TopAlbumsViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
+
 class TopAlbumsFragment :
     BaseFragment<FragmentMainScreenBinding>(),
     OnItemClickListener {
@@ -25,7 +24,7 @@ class TopAlbumsFragment :
     private val args: TopAlbumsFragmentArgs by navArgs()
     private lateinit var albumsAdapter: AlbumsAdapter
 
-    val viewModel: TopAlbumsViewModel by viewModels()
+    val viewModel: TopAlbumsViewModel by viewModel()
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainScreenBinding
         get() = FragmentMainScreenBinding::inflate
 

@@ -4,9 +4,8 @@ import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.search.domain.entites.Artist
 import com.islam.music.features.search.domain.entites.Image
 import com.islam.music.features.top_albums.domain.entites.Album
-import javax.inject.Inject
 
-class AlbumEntityToAlbumMapper @Inject constructor() {
+class AlbumEntityToAlbumMapper {
 
     operator fun invoke(albumEntity: AlbumEntity): Album {
         return Album(

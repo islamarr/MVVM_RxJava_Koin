@@ -3,12 +3,10 @@ package com.islam.music.features.search.domain.usecases
 import com.islam.music.features.search.domain.entites.Artist
 import com.islam.music.features.search.domain.entites.ArtistListLoaded
 import com.islam.music.features.search.domain.repositories.SearchArtistRepository
-import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Single
-import javax.inject.Inject
 
-@ViewModelScoped
-class SearchArtistUseCase @Inject constructor(private val repository: SearchArtistRepository) {
+
+class SearchArtistUseCase(private val repository: SearchArtistRepository) {
 
     private var isReachBottom = false
     private var currentPage = 1

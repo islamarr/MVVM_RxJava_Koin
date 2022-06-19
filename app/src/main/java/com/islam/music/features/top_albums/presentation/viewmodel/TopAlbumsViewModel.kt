@@ -6,13 +6,10 @@ import com.islam.music.common.data.DataResponse
 import com.islam.music.common.view.BaseViewModel
 import com.islam.music.features.top_albums.domain.entites.TopAlbumsListLoaded
 import com.islam.music.features.top_albums.domain.usecases.TopAlbumsUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
-@HiltViewModel
-class TopAlbumsViewModel @Inject constructor(private val useCase: TopAlbumsUseCase) :
+class TopAlbumsViewModel(private val useCase: TopAlbumsUseCase) :
     BaseViewModel() {
 
     private val response = MutableLiveData<DataResponse<TopAlbumsListLoaded>>()
