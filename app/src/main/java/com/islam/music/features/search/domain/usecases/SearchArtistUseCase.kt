@@ -14,7 +14,7 @@ class SearchArtistUseCase @Inject constructor(private val repository: SearchArti
     private var currentPage = 1
     private var artistList = mutableListOf<Artist>()
 
-    suspend fun execute(query: String, isLoadMore: Boolean): SearchStates {
+    suspend fun execute(query: String, isLoadMore: Boolean): SearchStates { //TODO rotate in pagination
         if (isLoadMore) {
             ++currentPage
         } else {
