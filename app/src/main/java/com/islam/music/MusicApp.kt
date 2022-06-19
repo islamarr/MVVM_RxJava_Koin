@@ -9,7 +9,7 @@ import org.koin.core.context.startKoin
 class MusicApp : Application() {
     override fun onCreate() {
         super.onCreate()
-//TODO use koin annotations
+
         startKoin {
             androidLogger()
             androidContext(this@MusicApp)
