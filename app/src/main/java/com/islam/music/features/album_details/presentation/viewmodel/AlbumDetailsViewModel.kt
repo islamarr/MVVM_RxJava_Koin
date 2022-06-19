@@ -15,7 +15,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.koin.android.annotation.KoinViewModel
 
+@KoinViewModel
 class AlbumDetailsViewModel(
     private val albumDetailsUseCase: AlbumDetailsUseCase,
     private val getFavoriteUseCase: GetFavoriteUseCase,

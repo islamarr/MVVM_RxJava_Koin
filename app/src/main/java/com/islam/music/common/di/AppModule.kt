@@ -41,12 +41,26 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
+
+@Module
+@ComponentScan("com.islam.music.features.album_details.presentation.viewmodel")
+class ViewModelModule
+
+@Module
+@ComponentScan("com.islam.music.features.top_albums.domain.usecases")
+class UseCaseModule
+
+@Module
+@ComponentScan("com.islam.music.common.di")
+class ApiModule
 
 val appModule = module {
     factory { AlbumDetailsToAlbumMapper() }
@@ -68,7 +82,7 @@ val appModule = module {
 
 val apiModule = module {
     single { provideHttpLoggingInterceptor() }
-    single { URLInterceptor() }
+  //  single { URLInterceptor() }
     single { provideHttpClient(get(), get()) }
     single { provideRetrofit(get()) }
     single { provideTopAlbumsAPIService(get()) }
@@ -82,7 +96,7 @@ val useCaseModule = module {
     factory { SetFavoriteUseCase(get()) }
     factory { MainScreenUseCase(get()) }
     factory { SearchArtistUseCase(get()) }
-    factory { TopAlbumsUseCase(get()) }
+  //  factory { TopAlbumsUseCase(get()) }
 }
 
 val databaseModule = module {
@@ -91,7 +105,7 @@ val databaseModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { AlbumDetailsViewModel(get(), get(), get()) }
+  //  viewModel { AlbumDetailsViewModel(get(), get(), get()) }
     viewModel { MainScreenViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { TopAlbumsViewModel(get()) }
