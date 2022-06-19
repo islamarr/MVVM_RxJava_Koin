@@ -19,14 +19,16 @@ import com.islam.music.common.view.BaseFragment
 import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.search.presentation.viewmodel.SearchViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class SearchFragment : BaseFragment<FragmentMainScreenBinding>(),
     SearchView.OnQueryTextListener,
     OnSearchItemClickListener {
 
     val viewModel: SearchViewModel by viewModel()
-    private lateinit var artistsAdapter: ArtistsAdapter
+    private val artistsAdapter: ArtistsAdapter by inject { parametersOf(this@SearchFragment) }
     private var queryTyped = ""
     private var isReachBottom = false
 
@@ -71,7 +73,6 @@ class SearchFragment : BaseFragment<FragmentMainScreenBinding>(),
 
     private fun initRecyclerView() {
         binding.container.list.apply {
-            artistsAdapter = ArtistsAdapter(this@SearchFragment)
             adapter = artistsAdapter
         }
     }

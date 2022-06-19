@@ -17,6 +17,7 @@ import com.islam.music.databinding.FragmentAlbumDetailsBinding
 import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbumDetailsFragment :
@@ -25,7 +26,7 @@ class AlbumDetailsFragment :
     private val args: AlbumDetailsFragmentArgs by navArgs()
     private var albumEntity = AlbumEntity()
     private var isFavorite: Boolean = false
-    private lateinit var trackAdapter: TrackAdapter
+    private val trackAdapter: TrackAdapter by inject()
     private lateinit var albumParams: AlbumParams
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAlbumDetailsBinding
@@ -55,7 +56,6 @@ class AlbumDetailsFragment :
 
     private fun initRecyclerView() {
         binding.albumTrackList.apply {
-            trackAdapter = TrackAdapter()
             adapter = trackAdapter
         }
     }

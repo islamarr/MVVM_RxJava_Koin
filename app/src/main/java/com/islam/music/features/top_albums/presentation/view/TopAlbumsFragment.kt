@@ -14,7 +14,9 @@ import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.main_screen.presentation.view.AlbumsAdapter
 import com.islam.music.features.top_albums.presentation.viewmodel.TopAlbumsViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 class TopAlbumsFragment :
@@ -22,7 +24,7 @@ class TopAlbumsFragment :
     OnItemClickListener {
 
     private val args: TopAlbumsFragmentArgs by navArgs()
-    private lateinit var albumsAdapter: AlbumsAdapter
+    private val albumsAdapter: AlbumsAdapter by inject { parametersOf(this@TopAlbumsFragment) }
 
     val viewModel: TopAlbumsViewModel by viewModel()
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainScreenBinding
@@ -38,7 +40,6 @@ class TopAlbumsFragment :
 
     private fun initRecyclerView() {
         binding.container.list.apply {
-            albumsAdapter = AlbumsAdapter(this@TopAlbumsFragment)
             adapter = albumsAdapter
         }
     }

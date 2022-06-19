@@ -12,12 +12,16 @@ import com.islam.music.common.view.BaseFragment
 import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.main_screen.presentation.viewmodel.MainScreenViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinComponent
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent.inject
 
 
 class MainScreenFragment :
     BaseFragment<FragmentMainScreenBinding>(),
-    OnItemClickListener {
+    OnItemClickListener, KoinComponent {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainScreenBinding
         get() = FragmentMainScreenBinding::inflate
@@ -25,7 +29,7 @@ class MainScreenFragment :
     override fun screenTitle() = getString(R.string.main_screen_title)
 
     val viewModel: MainScreenViewModel by viewModel()
-    private lateinit var albumsAdapter: AlbumsAdapter
+    private val albumsAdapter: AlbumsAdapter by inject { parametersOf(this@MainScreenFragment) }
 
     override fun setupOnViewCreated() {
         initRecyclerView()
@@ -66,7 +70,7 @@ class MainScreenFragment :
 
     private fun initRecyclerView() {
         binding.container.list.apply {
-            albumsAdapter = AlbumsAdapter(this@MainScreenFragment)
+            //  albumsAdapter = AlbumsAdapter(this@MainScreenFragment)
             adapter = albumsAdapter
         }
     }

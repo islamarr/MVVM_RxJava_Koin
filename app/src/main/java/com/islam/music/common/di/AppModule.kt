@@ -16,9 +16,11 @@ import com.islam.music.features.album_details.domain.repositories.AlbumDetailsRe
 import com.islam.music.features.album_details.domain.usecases.AlbumDetailsUseCase
 import com.islam.music.features.album_details.domain.usecases.GetFavoriteUseCase
 import com.islam.music.features.album_details.domain.usecases.SetFavoriteUseCase
+import com.islam.music.features.album_details.presentation.view.TrackAdapter
 import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsViewModel
 import com.islam.music.features.main_screen.data.AlbumEntityToAlbumMapper
 import com.islam.music.features.main_screen.domain.usecases.MainScreenUseCase
+import com.islam.music.features.main_screen.presentation.view.AlbumsAdapter
 import com.islam.music.features.main_screen.presentation.viewmodel.MainScreenViewModel
 import com.islam.music.features.search.data.remote.api.SearchAPIService
 import com.islam.music.features.search.data.remote.datasource.SearchArtistRemoteDataSource
@@ -26,6 +28,7 @@ import com.islam.music.features.search.data.remote.datasource.SearchArtistRemote
 import com.islam.music.features.search.data.repositories.SearchArtistRepositoryImpl
 import com.islam.music.features.search.domain.repositories.SearchArtistRepository
 import com.islam.music.features.search.domain.usecases.SearchArtistUseCase
+import com.islam.music.features.search.presentation.view.ArtistsAdapter
 import com.islam.music.features.search.presentation.viewmodel.SearchViewModel
 import com.islam.music.features.top_albums.data.remote.api.TopAlbumsAPIService
 import com.islam.music.features.top_albums.data.remote.datasource.TopAlbumsRemoteDataSource
@@ -48,15 +51,19 @@ import java.util.concurrent.TimeUnit
 val appModule = module {
     factory { AlbumDetailsToAlbumMapper() }
     factory { AlbumEntityToAlbumMapper() }
-    
+
     factory<AlbumDetailsRepository> { AlbumDetailsRepositoryImpl(get(), get()) }
     factory<TopAlbumsRepository> { TopAlbumsRepositoryImpl(get()) }
     factory<SearchArtistRepository> { SearchArtistRepositoryImpl(get()) }
-    
+
     factory<AlbumDetailsLocalDataSource> { AlbumDetailsLocalDataSourceImpl(get(), get()) }
     factory<TopAlbumsRemoteDataSource> { TopAlbumsRemoteDataSourceImpl(get()) }
     factory<AlbumDetailsRemoteDataSource> { AlbumDetailsRemoteDataSourceImpl(get(), get()) }
     factory<SearchArtistRemoteDataSource> { SearchArtistRemoteDataSourceImpl(get()) }
+
+    factory { AlbumsAdapter(get()) }
+    factory { ArtistsAdapter(get()) }
+    factory { TrackAdapter() }
 }
 
 val apiModule = module {
