@@ -21,5 +21,6 @@
     <string name="album_details_screen_title">%1$s Album Details</string>
     <string name="tracks_title">Tracks</string>
     <string name="no_tracks">No tracks available</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
