@@ -22,5 +22,8 @@
     <string name="tracks_title">Tracks</string>
     <string name="no_tracks">No tracks available</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="aaaa">Welcome to the Basics Codelab!</string>
+    <string name="continuee">Continue</string>
+    <string name="hello">\"Hello, \"</string>
 
 </resources>

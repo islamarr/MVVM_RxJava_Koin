@@ -35,6 +35,13 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
 )
 
+private val LightColorPalette = lightColorScheme(
+    surface = Blue,
+    onSurface = Color.White,
+    primary = LightBlue,
+    onPrimary = Navy
+)
+
 @Composable
 fun MusicTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

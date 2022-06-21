@@ -5,11 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.islam.music.ui.theme.MusicTheme
@@ -31,7 +35,7 @@ private fun MyApp() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        var shouldShowOnboarding by remember { mutableStateOf(true) }
+        var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
 
         if (shouldShowOnboarding) {
             OnboardingScreen {
@@ -44,9 +48,9 @@ private fun MyApp() {
 }
 
 @Composable
-private fun Greetings(names: List<String> = listOf("World", "Compose")) {
-    Column(modifier = Modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
+private fun Greetings(names: List<String> = List(1000) { "$it" } ) {
+    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+        items(items = names) { name ->
             Greeting(name = name)
         }
     }
@@ -54,8 +58,8 @@ private fun Greetings(names: List<String> = listOf("World", "Compose")) {
 
 @Composable
 fun Greeting(name: String) {
-    var expanded by remember { mutableStateOf(false) }
-    val updatedWord = remember { mutableStateOf(name) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    val updatedWord = rememberSaveable { mutableStateOf(name) }
     val extraPadding = if (expanded) 48.dp else 0.dp
 
     Surface(
@@ -72,7 +76,7 @@ fun Greeting(name: String) {
                     .weight(1f)
                     .padding(bottom = extraPadding)
             ) {
-                Text(text = "Hello, ", color = Color.White)
+                Text(text = stringResource(R.string.hello), color = Color.White)
                 Text(text = updatedWord.value, color = Color.White)
             }
             OutlinedButton(onClick = { expanded = !expanded }) {
@@ -91,12 +95,12 @@ fun OnboardingScreen(onContinueClicked: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Welcome to the Basics Codelab!")
+            Text(stringResource(R.string.aaaa))
             Button(
                 modifier = Modifier.padding(vertical = 24.dp),
                 onClick = onContinueClicked
             ) {
-                Text("Continue")
+                Text(stringResource(R.string.continuee))
             }
         }
     }
@@ -106,6 +110,6 @@ fun OnboardingScreen(onContinueClicked: () -> Unit) {
 @Composable
 fun DefaultPreview() {
     MusicTheme {
-        OnboardingScreen(onContinueClicked = {}) // Do nothing on click.
+        Greetings()
     }
 }
