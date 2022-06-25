@@ -2,68 +2,64 @@ package com.islam.music.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.islam.music.common.NetworkImageComponentGlide
+import com.islam.music.features.search.domain.entites.Artist
+import com.islam.music.features.search.domain.entites.Image
 import com.islam.music.ui.theme.MusicTheme
+
+val artistList = listOf(
+    Artist(listOf(Image("")), name = "artist_1"),
+    Artist(listOf(Image("")), name = "artist_2"),
+    Artist(listOf(Image("")), name = "artist_3")
+)
 
 @Composable
 fun SearchScreen(navController: NavController) {
+    var newValue by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
-            MainAppBar(
+            SearchAppBar(
                 // searchWidgetState = searchWidgetState,
-                searchTextState = "searchTextState",
+                text = newValue,
                 onTextChange = {
-                    //mainViewModel.updateSearchTextState(newValue = it)
+                    newValue = it
                 },
                 onCloseClicked = {
-                    // mainViewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED)
+                    newValue = ""
                 },
                 onSearchClicked = {
                     Log.d("Searched Text", it)
-                },
-                onSearchTriggered = {
-                    // mainViewModel.updateSearchWidgetState(newValue = SearchWidgetState.OPENED)
                 }
+
             )
-        }
-    ) {}
-
-}
-
-
-@Composable
-fun MainAppBar(
-    //  searchWidgetState: SearchWidgetState,
-    searchTextState: String,
-    onTextChange: (String) -> Unit,
-    onCloseClicked: () -> Unit,
-    onSearchClicked: (String) -> Unit,
-    onSearchTriggered: () -> Unit
-) {
-    SearchAppBar(
-        text = searchTextState,
-        onTextChange = onTextChange,
-        onCloseClicked = onCloseClicked,
-        onSearchClicked = onSearchClicked
+        },
+        content = { LazyColumnArtistsScrollableComponent(artistList) },
     )
-}
 
+}
 
 @Composable
 fun SearchAppBar(
@@ -90,7 +86,7 @@ fun SearchAppBar(
                 Text(
                     modifier = Modifier
                         .alpha(ContentAlpha.medium),
-                    text = "Search here...",
+                    text = "Search for artist ...",
                     color = Color.White
                 )
             },
@@ -143,6 +139,39 @@ fun SearchAppBar(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun LazyColumnArtistsScrollableComponent(artistList: List<Artist>) {
+    LazyColumn(modifier = Modifier.fillMaxHeight()) {
+        items(items = artistList, itemContent = { artist ->
+            Card(
+                shape = RoundedCornerShape(4.dp),
+                backgroundColor = Color.White,
+                modifier = Modifier
+                    .fillParentMaxWidth()
+                    .padding(8.dp)
+            ) {
+                ListItem(text = {
+                    Text(
+                        text = artist.name ?: "",
+                        style = TextStyle(
+                            fontFamily = FontFamily.Serif, fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }, icon = {
+                    NetworkImageComponentGlide(
+                        url = artist.images?.get(0)?.url ?: "",
+                        modifier = Modifier
+                            .width(60.dp)
+                            .height(60.dp)
+                    )
+                })
+            }
+        })
+
+    }
+}
 
 @Preview(showBackground = true, widthDp = 420)
 @Composable

@@ -16,8 +16,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
@@ -50,6 +53,8 @@ fun NetworkImageComponentGlide(
         glide
             .asBitmap()
             .load(url)
+            .thumbnail(IMAGE_SIZE_MULTIPLIER)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(target)
 
         onDispose {
