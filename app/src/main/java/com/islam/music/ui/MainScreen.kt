@@ -44,6 +44,18 @@ val albList = listOf( //TODO replace with room data
         listOf(com.islam.music.features.search.domain.entites.Image("https://i.picsum.photos/id/969/200/200.jpg?hmac=p4_e12QQOwtyNXXwJjJs_2kwmu87KZGqAhiUV8goVos")),
         "3",
         "album_3"
+    ),
+    Album(
+        Artist(name = "artist_4"),
+        listOf(com.islam.music.features.search.domain.entites.Image("https://i.picsum.photos/id/1026/200/200.jpg?hmac=CWxlEHUZLgcfP2qGDrSBD-5MXHOjsY-ic-LwDigTunc")),
+        "4",
+        "album_4"
+    ),
+    Album(
+        Artist(name = "artist_5"),
+        listOf(com.islam.music.features.search.domain.entites.Image("https://i.picsum.photos/id/665/200/200.jpg?hmac=hWcfvzYgHAwJFOUaHZa2oZpOOL7yx_x8Bnhq0dFVQRw")),
+        "5",
+        "album_5"
     )
 )
 
