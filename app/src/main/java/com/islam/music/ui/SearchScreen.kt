@@ -45,14 +45,11 @@ fun SearchScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<SearchViewModel>() //TODO you should use state hoisting
 
-    //  val states by viewModel.state2.observeAsState()
-
     val states by viewModel.state.collectAsState()
 
     Scaffold(
         topBar = {
             SearchAppBar(
-                // searchWidgetState = searchWidgetState,
                 text = newValue,
                 onTextChange = {
                     newValue = it
@@ -62,6 +59,7 @@ fun SearchScreen(navController: NavController) {
                 },
                 onSearchClicked = {
                     viewModel.dispatch(SearchActions.SearchArtistByName(it))
+                    //   LocalContext.current.setKeyboardVisibility(this, false) //TODO hide keyboard
                 }
 
             )
@@ -69,13 +67,13 @@ fun SearchScreen(navController: NavController) {
         content = {
             when (states) {
                 is SearchStates.InitialState -> Log.d("TAG", "InitialState")
-                is SearchStates.Loading -> /*binding.container.loading.visible()*/ Log.d( //TODO handle loading
-                    "TAG",
-                    "SearchScreen: "
-                )
+                is SearchStates.Loading -> LoadingComponent()
                 is SearchStates.ArtistListLoaded -> {
                     //  isReachBottom = it.isReachBottom //TODO handle pagination
-                    LazyColumnArtistsScrollableComponent(navController, (states as SearchStates.ArtistListLoaded).result.toList())
+                    LazyColumnArtistsScrollableComponent(
+                        navController,
+                        (states as SearchStates.ArtistListLoaded).result.toList()
+                    )
                     EspressoIdlingResource.decrement()
                 }
                 is SearchStates.EmptyArtistList -> {
@@ -117,7 +115,7 @@ fun SearchAppBar(
                 Text(
                     modifier = Modifier
                         .alpha(ContentAlpha.medium),
-                    text = "Search for artist ...",
+                    text = stringResource(R.string.search_hint),
                     color = Color.White
                 )
             },
@@ -217,6 +215,17 @@ fun ShowMessage(message: String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = message)
+    }
+}
+
+@Composable
+fun LoadingComponent() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(modifier = Modifier.wrapContentWidth(Alignment.CenterHorizontally))
     }
 }
 
