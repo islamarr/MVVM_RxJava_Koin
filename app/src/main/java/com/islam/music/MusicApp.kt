@@ -1,7 +1,7 @@
 package com.islam.music
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class MusicApp : Application() {
-
-}
+@HiltAndroidApp
+class MusicApp : Application()
