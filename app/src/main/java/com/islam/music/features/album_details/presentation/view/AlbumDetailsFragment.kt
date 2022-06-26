@@ -20,6 +20,7 @@ import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetail
 import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsStates
 import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AlbumDetailsFragment :
@@ -28,7 +29,8 @@ class AlbumDetailsFragment :
     private val args: AlbumDetailsFragmentArgs by navArgs()
     private var albumEntity = AlbumEntity()
     private var isFavorite: Boolean = false
-    private lateinit var trackAdapter: TrackAdapter
+    @Inject
+    lateinit var trackAdapter: TrackAdapter
     private lateinit var albumParams: AlbumParams
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAlbumDetailsBinding
@@ -54,10 +56,7 @@ class AlbumDetailsFragment :
     }
 
     private fun initRecyclerView() {
-        binding.albumTrackList.apply {
-            trackAdapter = TrackAdapter()
-            adapter = trackAdapter
-        }
+        binding.albumTrackList.adapter = trackAdapter
     }
 
     private fun loadImage(url: String?) {

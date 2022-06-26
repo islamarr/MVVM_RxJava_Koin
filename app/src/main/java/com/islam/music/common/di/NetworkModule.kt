@@ -2,6 +2,7 @@ package com.islam.music.common.di
 
 import com.islam.music.BuildConfig
 import com.islam.music.common.TIME_OUT_IN_SECONDS
+import com.islam.music.common.data.URLInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides

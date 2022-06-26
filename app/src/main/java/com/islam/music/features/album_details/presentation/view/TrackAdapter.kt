@@ -8,8 +8,9 @@ import com.islam.music.common.gone
 import com.islam.music.common.view.BaseListAdapter
 import com.islam.music.databinding.OneGeneralItemBinding
 import com.islam.music.features.album_details.domain.entites.Track
+import javax.inject.Inject
 
-class TrackAdapter :
+class TrackAdapter @Inject constructor() :
     BaseListAdapter<Track>(TrackerDiffUtil()) {
 
     override fun createBinding(parent: ViewGroup, viewType: Int): ViewBinding {

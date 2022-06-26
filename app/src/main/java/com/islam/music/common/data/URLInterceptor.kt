@@ -1,4 +1,4 @@
-package com.islam.music.common.di
+package com.islam.music.common.data
 
 import com.islam.music.BuildConfig
 import okhttp3.Interceptor
