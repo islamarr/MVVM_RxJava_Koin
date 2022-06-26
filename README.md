@@ -57,8 +57,6 @@ Technical choices
 **Hilt vs Dagger2 vs Koin**
 
 - Hilt is built on top of the Dagger, and it comes with some advantages like simplify Dagger code and create a standard set of components and scopes to ease setup.
-- As this project is simple, Hilt is the best one. For more complex projects I will go with Dagger2 to avoid some limitation of hilt.
-- Hilt does not need factories for ViewModel, koin need.
 - Hilt generate the code in the compile time, while koin in runtime.
 
 **Coroutines vs RxJava**

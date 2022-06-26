@@ -5,7 +5,7 @@ import com.islam.music.features.album_details.domain.entites.Track
 
 open class TrackerDiffUtil : BaseDiffCallback<Track>() {
 
-    override fun areContentsTheSame(oldItem: Track, newItem: Track): Boolean {
+    override fun areItemsTheSame(oldItem: Track, newItem: Track): Boolean {
         return oldItem.attr.rank == newItem.attr.rank
     }
 }

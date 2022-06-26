@@ -7,9 +7,4 @@ open class ArtistDiffUtil : BaseDiffCallback<Artist>() {
     override fun areItemsTheSame(oldItem: Artist, newItem: Artist): Boolean {
         return oldItem.id == newItem.id
     }
-
-    override fun areContentsTheSame(oldItem: Artist, newItem: Artist): Boolean {
-        return oldItem.id == newItem.id
-    }
-
 }
