@@ -1,7 +1,7 @@
 package com.islam.music.features.album_details.presentation.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.islam.music.MainCoroutineRule
+import com.islam.music.TestCoroutineDispatcherRule
 import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.domain.usecases.AlbumDetailsUseCase
@@ -42,7 +42,7 @@ class AlbumDetailsViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val mainCoroutineRule = MainCoroutineRule()
+    val coroutineRule = TestCoroutineDispatcherRule()
 
     @Before
     fun setUp() {

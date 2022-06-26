@@ -1,7 +1,7 @@
 package com.islam.music.features.main_screen.presentation.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.islam.music.MainCoroutineRule
+import com.islam.music.TestCoroutineDispatcherRule
 import com.islam.music.features.main_screen.domain.usecases.MainScreenUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -32,7 +32,7 @@ class MainScreenViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val mainCoroutineRule = MainCoroutineRule()
+    val coroutineRule = TestCoroutineDispatcherRule()
 
     @Before
     fun setUp() {

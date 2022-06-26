@@ -1,7 +1,7 @@
 package com.islam.music.features.search.presentation.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.islam.music.MainCoroutineRule
+import com.islam.music.TestCoroutineDispatcherRule
 import com.islam.music.features.search.domain.usecases.SearchArtistUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -32,7 +32,7 @@ class SearchViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val mainCoroutineRule = MainCoroutineRule()
+    val coroutineRule = TestCoroutineDispatcherRule()
 
     @Before
     fun setUp() {
