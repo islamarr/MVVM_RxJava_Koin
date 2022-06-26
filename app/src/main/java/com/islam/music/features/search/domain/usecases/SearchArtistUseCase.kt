@@ -15,6 +15,7 @@ class SearchArtistUseCase @Inject constructor(private val repository: SearchArti
     private var artistList = mutableListOf<Artist>()
 
     suspend fun execute(query: String, isLoadMore: Boolean): SearchStates {
+        if (query.isNullOrEmpty()) return SearchStates.InitialState
         if (isLoadMore) {
             ++currentPage
         } else {
