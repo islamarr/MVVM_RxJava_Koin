@@ -5,7 +5,8 @@ import com.islam.music.features.album_details.domain.entites.AlbumEntity
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.domain.repositories.AlbumDetailsRepository
 import com.islam.music.features.album_details.presentation.viewmodel.AlbumDetailsStates
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -13,6 +14,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 
+@ExperimentalCoroutinesApi
 class GetFavoriteUseCaseTest {
     private lateinit var useCase: GetFavoriteUseCase
 
@@ -26,7 +28,7 @@ class GetFavoriteUseCaseTest {
     }
 
     @Test
-    fun `when execute useCase return SavedState`() = runBlocking {
+    fun `when execute useCase return SavedState`() = runTest {
         val albumParams = AlbumParams(artistName = "artist", albumName = "album")
         val albumEntity = AlbumEntity(trackList = listOf())
         whenever(repository.getOneFavoriteAlbum(albumParams)).thenReturn(
@@ -40,7 +42,7 @@ class GetFavoriteUseCaseTest {
     }
 
     @Test
-    fun `when failure Response return not SavedState`() = runBlocking {
+    fun `when failure Response return not SavedState`() = runTest {
         val albumParams = AlbumParams(artistName = "artist", albumName = "album")
         whenever(repository.getOneFavoriteAlbum(albumParams)).thenReturn(
             DataResponse.Failure()

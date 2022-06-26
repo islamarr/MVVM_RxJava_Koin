@@ -1,5 +1,6 @@
 package com.islam.music.features.album_details.data.repositories
 
+import com.islam.music.common.AppCoroutineDispatchers
 import com.islam.music.common.data.DataResponse
 import com.islam.music.common.data.SafeServiceCall
 import com.islam.music.features.album_details.data.db.datasource.AlbumDetailsLocalDataSource
@@ -12,11 +13,13 @@ import javax.inject.Inject
 
 class AlbumDetailsRepositoryImpl @Inject constructor(
     private val remoteDataSource: AlbumDetailsRemoteDataSource,
-    private val localDataSource: AlbumDetailsLocalDataSource
+    private val localDataSource: AlbumDetailsLocalDataSource,
+    private val dispatchers: AppCoroutineDispatchers
 ) : AlbumDetailsRepository {
 
     override suspend fun getAlbumDetails(albumParams: AlbumParams): DataResponse<AlbumEntity> {
         return object : SafeServiceCall<AlbumEntity>(
+            dispatcher = dispatchers.io,
             apiCall = { remoteDataSource.getAlbumDetails(albumParams) },
             cacheCall = { localDataSource.getOneFavoriteAlbum(albumParams) }
         ) {}.safeCall()
@@ -32,12 +35,14 @@ class AlbumDetailsRepositoryImpl @Inject constructor(
 
     override suspend fun getFavoriteList(): DataResponse<List<Album>> {
         return object : SafeServiceCall<List<Album>>(
+            dispatcher = dispatchers.io,
             cacheCall = { localDataSource.getFavoriteList() }
         ) {}.safeCall()
     }
 
     override suspend fun getOneFavoriteAlbum(albumParams: AlbumParams): DataResponse<AlbumEntity> {
         return object : SafeServiceCall<AlbumEntity>(
+            dispatcher = dispatchers.io,
             cacheCall = { localDataSource.getOneFavoriteAlbum(albumParams) }
         ) {}.safeCall()
     }

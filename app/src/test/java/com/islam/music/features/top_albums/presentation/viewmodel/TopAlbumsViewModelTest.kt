@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -41,7 +41,7 @@ class TopAlbumsViewModelTest {
     }
 
     @Test
-    fun `when load Albums return Loading State as a first result`() = runBlocking {
+    fun `when load Albums return Loading State as a first result`() = runTest {
         val artistName = "artist"
 
         val actual = viewModel.handle(TopAlbumsActions.LoadAllAlbums(artistName)).first()
@@ -51,7 +51,7 @@ class TopAlbumsViewModelTest {
     }
 
     @Test
-    fun `when load Albums return Empty Top Albums List State as a second result`() = runBlocking {
+    fun `when load Albums return Empty Top Albums List State as a second result`() = runTest {
         val artistName = "artist"
         whenever(useCase.execute(artistName)).thenReturn(TopAlbumsStates.EmptyTopAlbumsList)
 
@@ -65,7 +65,7 @@ class TopAlbumsViewModelTest {
     }
 
     @Test
-    fun `when start viewModel return InitialState`() = runBlocking {
+    fun `when start viewModel return InitialState`() = runTest {
         val expected = TopAlbumsStates.InitialState
         val actual = viewModel.state.first()
 
@@ -73,7 +73,7 @@ class TopAlbumsViewModelTest {
     }
 
     @Test
-    fun `when dispatch viewModel return Empty Top Albums List state`() = runBlocking {
+    fun `when dispatch viewModel return Empty Top Albums List state`() = runTest {
         val artistName = "artist"
         val action = TopAlbumsActions.LoadAllAlbums(artistName)
 

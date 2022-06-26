@@ -1,6 +1,6 @@
 package com.islam.music.common.data
 
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
@@ -8,6 +8,7 @@ import retrofit2.HttpException
  * To handle Http Exceptions Like no internet connection and Time out
  */
 abstract class SafeServiceCall<T>(
+    private val dispatcher: CoroutineDispatcher,
     private val apiCall: (suspend () -> T?)? = null,
     private val cacheCall: (suspend () -> T?)? = null
 ) {
@@ -25,7 +26,7 @@ abstract class SafeServiceCall<T>(
     private suspend fun safeApiCall(
         apiCall: (suspend () -> T?)?
     ): DataResponse<T> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
             try {
                 val result = apiCall?.invoke()
                 result?.let {
@@ -50,7 +51,7 @@ abstract class SafeServiceCall<T>(
     private suspend fun safeCacheCall(
         cacheCall: (suspend () -> T?)?
     ): DataResponse<T> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
             try {
                 val result = cacheCall?.invoke()
                 result?.let {

@@ -7,7 +7,8 @@ import com.islam.music.features.top_albums.domain.entites.TopAlbumsResponse
 import com.islam.music.features.top_albums.domain.entites.Topalbums
 import com.islam.music.features.top_albums.domain.repositories.TopAlbumsRepository
 import com.islam.music.features.top_albums.presentation.viewmodel.TopAlbumsStates
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -15,6 +16,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 
+@ExperimentalCoroutinesApi
 class TopAlbumsUseCaseTest {
     private lateinit var useCase: TopAlbumsUseCase
 
@@ -29,7 +31,7 @@ class TopAlbumsUseCaseTest {
 
     @Test
     fun `when execute useCase return Empty Top Albums List State with Empty list response`() =
-        runBlocking {
+        runTest {
 
             val artistName = "artist"
             whenever(repository.getTopAlbums(artistName)).thenReturn(
@@ -45,7 +47,7 @@ class TopAlbumsUseCaseTest {
         }
 
     @Test
-    fun `when get Top album list response return Top Albums List Loaded State`() = runBlocking {
+    fun `when get Top album list response return Top Albums List Loaded State`() = runTest {
         val artistName = "artist"
         val responseData = Topalbums(listOf(Album(Artist(), listOf(), "1", "album")))
         whenever(repository.getTopAlbums(artistName)).thenReturn(
@@ -59,7 +61,7 @@ class TopAlbumsUseCaseTest {
     }
 
     @Test
-    fun `test failure Response`() = runBlocking {
+    fun `test failure Response`() = runTest {
         val artistName = "artist"
         val response = DataResponse.Failure<TopAlbumsResponse>("reason")
 
@@ -72,7 +74,7 @@ class TopAlbumsUseCaseTest {
     }
 
     @Test
-    fun `test failure Response with null reason`() = runBlocking {
+    fun `test failure Response with null reason`() = runTest {
         val artistName = "artist"
         val response = DataResponse.Failure<TopAlbumsResponse>()
 
@@ -85,7 +87,7 @@ class TopAlbumsUseCaseTest {
     }
 
     @Test
-    fun `when get null response return ShowErrorMessage`() = runBlocking {
+    fun `when get null response return ShowErrorMessage`() = runTest {
         val artistName = "artist"
         whenever(repository.getTopAlbums(artistName)).thenReturn(DataResponse.Success(null))
 

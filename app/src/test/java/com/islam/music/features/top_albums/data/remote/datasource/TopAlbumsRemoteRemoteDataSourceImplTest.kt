@@ -2,7 +2,8 @@ package com.islam.music.features.top_albums.data.remote.datasource
 
 import com.islam.music.features.top_albums.data.remote.api.TopAlbumsAPIService
 import com.islam.music.features.top_albums.domain.entites.TopAlbumsResponse
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -10,6 +11,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 
+@ExperimentalCoroutinesApi
 class TopAlbumsRemoteRemoteDataSourceImplTest {
     private lateinit var dataSource: TopAlbumsRemoteRemoteDataSourceImpl
 
@@ -23,7 +25,7 @@ class TopAlbumsRemoteRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `test return success response`() = runBlocking {
+    fun `test return success response`() = runTest {
         val artistName = "artist"
         val response = TopAlbumsResponse()
         whenever(apiService.getTopAlbums(artistName)).thenReturn(response)

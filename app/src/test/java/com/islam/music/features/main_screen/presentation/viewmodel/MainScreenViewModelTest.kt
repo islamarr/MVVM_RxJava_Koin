@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -41,7 +41,7 @@ class MainScreenViewModelTest {
     }
 
     @Test
-    fun `when load Saved Albums return Loading State as a first result`() = runBlocking {
+    fun `when load Saved Albums return Loading State as a first result`() = runTest {
         val actual = viewModel.handle(MainScreenActions.LoadAllSavedAlbums).first()
         val expected = MainScreenStates.Loading
 
@@ -50,7 +50,7 @@ class MainScreenViewModelTest {
 
     @Test
     fun `when load Saved Albums return LoadAllSavedAlbums State as a second result`() =
-        runBlocking {
+        runTest {
             whenever(useCase.execute()).thenReturn(MainScreenStates.EmptySavedList)
 
             val actual = viewModel.handle(MainScreenActions.LoadAllSavedAlbums).drop(1).first()
@@ -63,7 +63,7 @@ class MainScreenViewModelTest {
         }
 
     @Test
-    fun `when start viewModel return InitialState`() = runBlocking {
+    fun `when start viewModel return InitialState`() = runTest {
         val expected = MainScreenStates.InitialState
         val actual = viewModel.state.first()
 
@@ -71,7 +71,7 @@ class MainScreenViewModelTest {
     }
 
     @Test
-    fun `when dispatch viewModel return EmptySavedList state`() = runBlocking {
+    fun `when dispatch viewModel return EmptySavedList state`() = runTest {
         val action = MainScreenActions.LoadAllSavedAlbums
 
         val job = launch {

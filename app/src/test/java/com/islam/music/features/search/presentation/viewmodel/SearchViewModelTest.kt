@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -41,7 +41,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `when load Albums return Loading State as a first result`() = runBlocking {
+    fun `when load Albums return Loading State as a first result`() = runTest {
         val artistName = "artist"
 
         val actual = viewModel.handle(SearchActions.SearchArtistByName(artistName)).first()
@@ -51,7 +51,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `when load Albums return EmptyArtistList State as a second result`() = runBlocking {
+    fun `when load Albums return EmptyArtistList State as a second result`() = runTest {
         val artistName = "artist"
         val isLoadMore = false
         whenever(useCase.execute(artistName, isLoadMore)).thenReturn(SearchStates.EmptyArtistList)
@@ -66,7 +66,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `when start viewModel return InitialState`() = runBlocking {
+    fun `when start viewModel return InitialState`() = runTest {
         val expected = SearchStates.InitialState
         val actual = viewModel.state.first()
 
@@ -74,7 +74,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `when dispatch viewModel return EmptyArtistList state`() = runBlocking {
+    fun `when dispatch viewModel return EmptyArtistList state`() = runTest {
         val artistName = "artist"
         val isLoadMore = false
         val action = SearchActions.SearchArtistByName(artistName)

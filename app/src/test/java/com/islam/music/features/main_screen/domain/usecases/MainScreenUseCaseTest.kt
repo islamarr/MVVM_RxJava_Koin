@@ -5,7 +5,8 @@ import com.islam.music.features.album_details.domain.repositories.AlbumDetailsRe
 import com.islam.music.features.main_screen.presentation.viewmodel.MainScreenStates
 import com.islam.music.features.search.domain.entites.Artist
 import com.islam.music.features.top_albums.domain.entites.Album
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -13,6 +14,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 
+@ExperimentalCoroutinesApi
 class MainScreenUseCaseTest {
     private lateinit var useCase: MainScreenUseCase
 
@@ -27,7 +29,7 @@ class MainScreenUseCaseTest {
 
     @Test
     fun `when execute useCase return EmptySavedList State with Empty list response`() =
-        runBlocking {
+        runTest {
 
             whenever(repository.getFavoriteList()).thenReturn(DataResponse.Success(listOf()))
 
@@ -38,7 +40,7 @@ class MainScreenUseCaseTest {
         }
 
     @Test
-    fun `when get Favorite List response return SavedListLoaded result`() = runBlocking {
+    fun `when get Favorite List response return SavedListLoaded result`() = runTest {
         val responseData = listOf(Album(Artist(), listOf(), "1", "album"))
         whenever(repository.getFavoriteList()).thenReturn(
             DataResponse.Success(responseData)
@@ -51,7 +53,7 @@ class MainScreenUseCaseTest {
     }
 
     @Test
-    fun `test failure Response`() = runBlocking {
+    fun `test failure Response`() = runTest {
         val response = DataResponse.Failure<List<Album>>("reason")
 
         whenever(repository.getFavoriteList()).thenReturn(response)
@@ -63,7 +65,7 @@ class MainScreenUseCaseTest {
     }
 
     @Test
-    fun `test failure Response with null reason`() = runBlocking {
+    fun `test failure Response with null reason`() = runTest {
         val response = DataResponse.Failure<List<Album>>()
 
         whenever(repository.getFavoriteList()).thenReturn(response)
@@ -75,7 +77,7 @@ class MainScreenUseCaseTest {
     }
 
     @Test
-    fun `when get null response return ShowErrorMessage`() = runBlocking {
+    fun `when get null response return ShowErrorMessage`() = runTest {
         whenever(repository.getFavoriteList()).thenReturn(DataResponse.Success(null))
 
         val actual = useCase.execute()

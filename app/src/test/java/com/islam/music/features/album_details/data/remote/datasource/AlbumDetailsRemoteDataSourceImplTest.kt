@@ -7,7 +7,7 @@ import com.islam.music.features.album_details.domain.entites.AlbumDetailsRespons
 import com.islam.music.features.album_details.domain.entites.AlbumParams
 import com.islam.music.features.album_details.domain.entites.Tracks
 import com.islam.music.features.search.domain.entites.Image
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +30,7 @@ class AlbumDetailsRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `whe get Album details return mapped album entity`() = runBlocking {
+    fun `whe get Album details return mapped album entity`() = runTest {
         val albumParams = AlbumParams(artistName = "artist", albumName = "album")
         val response = AlbumDetailsResponse(AlbumDetails("", listOf(Image("")), "", "", Tracks()))
         whenever(
