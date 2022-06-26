@@ -14,7 +14,7 @@ class SearchArtistUseCase @Inject constructor(private val repository: SearchArti
     private var currentPage = 1
     private var artistList = mutableListOf<Artist>()
 
-    suspend fun execute(query: String, isLoadMore: Boolean): SearchStates { //TODO rotate in pagination , try to test
+    suspend fun execute(query: String, isLoadMore: Boolean): SearchStates {
         if (isLoadMore) {
             ++currentPage
         } else {
@@ -30,7 +30,7 @@ class SearchArtistUseCase @Inject constructor(private val repository: SearchArti
                     artistList.addAll(it.results.artists.artist)
 
                     if (artistList.isEmpty()) SearchStates.EmptyArtistList else
-                        SearchStates.ArtistListLoaded(artistList, isReachBottom)
+                        SearchStates.ArtistListLoaded(artistList, isReachBottom, query)
                 } ?: SearchStates.ShowErrorMessage()
             }
             is DataResponse.Failure -> {

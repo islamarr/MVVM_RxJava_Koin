@@ -11,13 +11,11 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val useCase: SearchArtistUseCase) :
     BaseViewModel<SearchStates, SearchActions>(SearchStates.InitialState) {
 
-    var query: String = ""
-
     override fun handle(actions: SearchActions): Flow<SearchStates> = flow {
         when (actions) {
             is SearchActions.SearchArtistByName -> {
                 emit(SearchStates.Loading)
-                emit(useCase.execute(query, actions.isLoadMore))
+                emit(useCase.execute(actions.query, actions.isLoadMore))
             }
         }
     }

@@ -11,6 +11,6 @@ sealed class SearchStates : ViewState {
     data class ShowErrorMessage(val reason: String? = null) :
         SearchStates()
 
-    data class ArtistListLoaded(val result: List<Artist>, val isReachBottom: Boolean) : SearchStates()
+    data class ArtistListLoaded(val result: List<Artist>, val isReachBottom: Boolean, val query: String) : SearchStates()
     object EmptyArtistList : SearchStates()
 }

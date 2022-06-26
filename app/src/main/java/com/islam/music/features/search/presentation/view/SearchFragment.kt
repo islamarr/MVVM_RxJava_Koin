@@ -37,8 +37,7 @@ class SearchFragment :
 
     override val viewModel: SearchViewModel by viewModels()
     private lateinit var artistsAdapter: ArtistsAdapter
-
-    //   private var queryTyped = ""
+    private var queryTyped = ""
     private var isReachBottom = false
 
     override fun setupOnViewCreated() {
@@ -57,6 +56,7 @@ class SearchFragment :
         EspressoIdlingResource.increment()
         viewModel.dispatch(
             SearchActions.SearchArtistByName(
+                query = queryTyped,
                 isLoadMore = isLoadMore
             )
         )
@@ -76,6 +76,7 @@ class SearchFragment :
                 showEmptyList(false)
                 isReachBottom = it.isReachBottom
                 artistsAdapter.submitList(it.result.toList())
+                queryTyped = it.query
                 EspressoIdlingResource.decrement()
             }
             is SearchStates.EmptyArtistList -> {
@@ -116,7 +117,7 @@ class SearchFragment :
         searchView.apply {
             queryHint = resources.getString(R.string.search_hint)
             setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-            if (viewModel.query.isNotEmpty()) setQuery(viewModel.query, false)
+            if (queryTyped.isNotEmpty()) setQuery(queryTyped, false)
             setIconifiedByDefault(false)
             isSubmitButtonEnabled = true
             isIconified = false
@@ -128,7 +129,7 @@ class SearchFragment :
     override fun onQueryTextSubmit(query: String?): Boolean {
         setKeyboardVisibility(isShow = false)
         query?.let {
-            viewModel.query = it
+            queryTyped = it
             loadArtistList()
         }
         return true
