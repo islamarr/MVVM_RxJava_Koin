@@ -30,7 +30,7 @@ class MainScreenFragment :
 
     override fun setupOnViewCreated() {
         initRecyclerView()
-        loadAlbumList()
+        loadAlbumList() //TODO you should use flow to refresh the list not update it manually
     }
 
     private fun initRecyclerView() {
