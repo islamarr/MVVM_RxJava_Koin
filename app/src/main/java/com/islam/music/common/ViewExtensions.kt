@@ -3,7 +3,10 @@ package com.islam.music.common
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 fun View.gone() {
     visibility = View.GONE
@@ -27,4 +30,20 @@ fun Context.setKeyboardVisibility(view: View, isShow: Boolean) {
         )
     else
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun androidx.appcompat.widget.SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
+    val query = MutableStateFlow("")
+
+    setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+        override fun onQueryTextChange(newText: String): Boolean {
+            query.value = newText
+            return true
+        }
+    })
+
+    return query
 }

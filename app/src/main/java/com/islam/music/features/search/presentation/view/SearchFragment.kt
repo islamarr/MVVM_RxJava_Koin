@@ -10,20 +10,23 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.islam.music.R
-import com.islam.music.common.EspressoIdlingResource
-import com.islam.music.common.gone
-import com.islam.music.common.setKeyboardVisibility
+import com.islam.music.common.*
 import com.islam.music.common.view.BaseFragment
-import com.islam.music.common.visible
 import com.islam.music.databinding.FragmentMainScreenBinding
 import com.islam.music.features.search.presentation.viewmodel.SearchActions
 import com.islam.music.features.search.presentation.viewmodel.SearchStates
 import com.islam.music.features.search.presentation.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
+@FlowPreview
 @AndroidEntryPoint
 class SearchFragment :
     BaseFragment<FragmentMainScreenBinding, SearchStates, SearchActions>(),
@@ -122,8 +125,25 @@ class SearchFragment :
             isSubmitButtonEnabled = true
             isIconified = false
             setOnQueryTextListener(this@SearchFragment)
+            setUpSearchStateFlow(this)
         }
 
+    }
+
+    private fun setUpSearchStateFlow(searchView: SearchView) {
+        lifecycleScope.launch {
+            searchView.getQueryTextChangeStateFlow()
+                .debounce(400)
+                .distinctUntilChanged()
+                .map { query ->
+                    if (query.isNotEmpty()) {
+                        queryTyped = query
+                        loadArtistList()
+                    }
+                }
+                .flowOn(Dispatchers.Default)
+                .collect {}
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
