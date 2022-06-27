@@ -54,7 +54,7 @@ Technical choices
 - Testing the app also will be easier as we can map the business logic for each state.
 - [Read more][40]
 
-**Hilt vs Dagger2 vs Koin**
+**Hilt vs Koin**
 
 - Hilt is built on top of the Dagger, and it comes with some advantages like simplify Dagger code and create a standard set of components and scopes to ease setup.
 - Hilt generate the code in the compile time, while koin in runtime.
