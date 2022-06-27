@@ -13,7 +13,7 @@ class SearchViewModel(private val useCase: SearchArtistUseCase) :
     BaseViewModel() {
 
     private val response = MutableLiveData<DataResponse<ArtistListLoaded>>()
-    val state: LiveData<DataResponse<ArtistListLoaded>>  // TODO use rxjava observer
+    val state: LiveData<DataResponse<ArtistListLoaded>>
         get() = response
 
     fun fetchArtists(query: String, isLoadMore: Boolean) {

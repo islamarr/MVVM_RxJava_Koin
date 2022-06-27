@@ -15,7 +15,7 @@ interface AlbumDao {
     fun removeFromFavoriteList(albumName: String?, artistName: String?)
 
     @Query("SELECT * FROM album")
-    fun getFavoriteList(): Single<List<AlbumEntity>> //TODO why use single?
+    fun getFavoriteList(): Single<List<AlbumEntity>>
 
     @Query("SELECT * FROM album WHERE artistName = :artistName and albumName = :albumName")
     fun getOneFavoriteAlbum(artistName: String, albumName: String): Single<AlbumEntity>

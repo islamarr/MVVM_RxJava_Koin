@@ -58,7 +58,7 @@ class AlbumDetailsViewModel(
     }
 
     fun setFavorite(isAdd: Boolean, albumEntity: AlbumEntity) {
-        Completable.fromAction { //TODO make enhancement here
+        Completable.fromAction {
             setFavoriteUseCase.execute(isAdd, albumEntity)
         }.subscribeOn(Schedulers.io()).subscribe()
     }
