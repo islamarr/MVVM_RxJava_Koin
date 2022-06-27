@@ -14,9 +14,9 @@ class TopAlbumsRepositoryImpl @Inject constructor(
 ) :
     TopAlbumsRepository {
     override suspend fun getTopAlbums(artistName: String): DataResponse<TopAlbumsResponse> {
-        return object : SafeServiceCall<TopAlbumsResponse>(
+        return SafeServiceCall(
             dispatcher = dispatchers.io,
             apiCall = { dataSource.getTopAlbums(artistName) },
-        ) {}.safeCall()
+        ).safeCall()
     }
 }

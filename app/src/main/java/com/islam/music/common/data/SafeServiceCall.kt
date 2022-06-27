@@ -7,7 +7,7 @@ import retrofit2.HttpException
 /**
  * To handle Http Exceptions Like no internet connection and Time out
  */
-abstract class SafeServiceCall<T>(
+class SafeServiceCall<T>(
     private val dispatcher: CoroutineDispatcher,
     private val apiCall: (suspend () -> T?)? = null,
     private val cacheCall: (suspend () -> T?)? = null

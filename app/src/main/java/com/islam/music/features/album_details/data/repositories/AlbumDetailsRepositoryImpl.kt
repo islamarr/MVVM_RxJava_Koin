@@ -18,11 +18,11 @@ class AlbumDetailsRepositoryImpl @Inject constructor(
 ) : AlbumDetailsRepository {
 
     override suspend fun getAlbumDetails(albumParams: AlbumParams): DataResponse<AlbumEntity> {
-        return object : SafeServiceCall<AlbumEntity>(
+        return SafeServiceCall(
             dispatcher = dispatchers.io,
             apiCall = { remoteDataSource.getAlbumDetails(albumParams) },
             cacheCall = { localDataSource.getOneFavoriteAlbum(albumParams) }
-        ) {}.safeCall()
+        ).safeCall()
     }
 
     override suspend fun addToFavoriteList(album: AlbumEntity) {
@@ -34,17 +34,17 @@ class AlbumDetailsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFavoriteList(): DataResponse<List<Album>> {
-        return object : SafeServiceCall<List<Album>>(
+        return SafeServiceCall(
             dispatcher = dispatchers.io,
             cacheCall = { localDataSource.getFavoriteList() }
-        ) {}.safeCall()
+        ).safeCall()
     }
 
     override suspend fun getOneFavoriteAlbum(albumParams: AlbumParams): DataResponse<AlbumEntity> {
-        return object : SafeServiceCall<AlbumEntity>(
+        return SafeServiceCall(
             dispatcher = dispatchers.io,
             cacheCall = { localDataSource.getOneFavoriteAlbum(albumParams) }
-        ) {}.safeCall()
+        ).safeCall()
     }
 
 }

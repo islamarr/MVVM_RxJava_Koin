@@ -14,9 +14,9 @@ class SearchArtistRepositoryImpl @Inject constructor(
 ) :
     SearchArtistRepository {
     override suspend fun searchArtist(query: String, page: Int): DataResponse<ArtistResponse> {
-        return object : SafeServiceCall<ArtistResponse>(
+        return SafeServiceCall(
             dispatcher = dispatchers.io,
             apiCall = { dataSource.searchArtist(query, page) },
-        ) {}.safeCall()
+        ).safeCall()
     }
 }
