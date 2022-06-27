@@ -21,8 +21,8 @@ class AlbumDetailsViewModel @Inject constructor(
         when (actions) {
             is AlbumDetailsActions.AlbumDetailsAction -> {
                 emit(AlbumDetailsStates.Loading)
-                emit(albumDetailsUseCase.execute(actions.albumParams))
                 emit(getFavoriteUseCase.execute(actions.albumParams))
+                emit(albumDetailsUseCase.execute(actions.albumParams))
             }
             is AlbumDetailsActions.SetFavoriteAction -> setFavoriteUseCase.execute(
                 actions.isAdd,
