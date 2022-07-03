@@ -26,7 +26,7 @@ import com.islam.music.features.search.domain.entites.Artist
 import com.islam.music.features.top_albums.domain.entites.Album
 import com.islam.music.ui.theme.MusicTheme
 
-val albList = listOf( //TODO replace with room data
+val albList = listOf( //TODO replace with room data base
     Album(
         Artist(name = "artist_1"),
         listOf(com.islam.music.features.search.domain.entites.Image("https://i.picsum.photos/id/828/200/200.jpg?hmac=XDYHUvU1Ha9LQrkNk3svII_91vwnQqo8C0yWMqCt6V8")),
