@@ -1,7 +1,7 @@
 package com.islam.music.features.search.presentation.view
 
 /*
-
+///
 @AndroidEntryPoint
 class SearchFragment :
     BaseFragment<FragmentMainScreenBinding, SearchStates, SearchActions>(),
