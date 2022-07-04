@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MusicTheme {
-                val navController = rememberNavController()//
+                val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "mainScreen") {
                     composable("mainScreen") {
                         MainScreen(navController)
