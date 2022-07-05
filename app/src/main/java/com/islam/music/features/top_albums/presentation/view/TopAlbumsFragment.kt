@@ -1,7 +1,7 @@
 package com.islam.music.features.top_albums.presentation.view
 
 /*
-
+///////
 @AndroidEntryPoint
 class TopAlbumsFragment :
     BaseFragment<FragmentMainScreenBinding, TopAlbumsStates, TopAlbumsActions>(),
